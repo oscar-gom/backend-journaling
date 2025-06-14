@@ -10,4 +10,9 @@ class Habit extends Model
     {
         return $this->belongsTo(Journal::class);
     }
+
+    public function habit_entries()
+    {
+        return $this->hasMany(HabitEntry::class);
+    }
 }
