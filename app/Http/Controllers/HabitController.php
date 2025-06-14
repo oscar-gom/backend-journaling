@@ -12,15 +12,16 @@ class HabitController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $habits = Habit::all();
+        if ($habits->isEmpty()) {
+            return response()->json([
+                'message' => 'No habits found'
+            ], 404);
+        }
+        return response()->json([
+            'habits' => $habits,
+            'message' => 'Habits retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -28,23 +29,30 @@ class HabitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $habit = Habit::create($request->all());
+        return response()->json([
+            'habit' => $habit,
+            'message' => 'Habit created successfully'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Habit $habit)
+    public function show($id)
     {
-        //
-    }
+        $habit = Habit::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Habit $habit)
-    {
-        //
+        if (!$habit) {
+            return response()->json([
+                'message' => 'Habit not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'habit' => $habit,
+            'message' => 'Habit retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -52,7 +60,11 @@ class HabitController extends Controller
      */
     public function update(Request $request, Habit $habit)
     {
-        //
+        $habit->update($request->all());
+        return response()->json([
+            'habit' => $habit,
+            'message' => 'Habit updated successfully'
+        ], 200);
     }
 
     /**
@@ -60,6 +72,9 @@ class HabitController extends Controller
      */
     public function destroy(Habit $habit)
     {
-        //
+        $habit->delete();
+        return response()->json([
+            'message' => 'Habit deleted successfully'
+        ], 200);
     }
 }
