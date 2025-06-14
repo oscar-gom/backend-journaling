@@ -20,4 +20,9 @@ class Journal extends Model
     {
         return $this->hasMany(Habit::class);
     }
+
+    public function dailyTasks()
+    {
+        return $this->hasMany(DailyTask::class);
+    }
 }
