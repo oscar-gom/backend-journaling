@@ -12,15 +12,11 @@ class DailyTaskController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $tasks = DailyTask::all();
+        return response()->json([
+            'tasks' => $tasks,
+            'message' => 'Daily tasks retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -28,31 +24,43 @@ class DailyTaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DailyTask::create($request->all());
+        return response()->json([
+            'task' => $request,
+            'message' => 'Daily task created successfully'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(DailyTask $dailyTask)
+    public function show($id)
     {
-        //
+        $task = DailyTask::find($id);
+
+        if (!$task) {
+            return response()->json([
+                'message' => 'Daily task not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'task' => $task,
+            'message' => 'Daily task retrieved successfully'
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DailyTask $dailyTask)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, DailyTask $dailyTask)
     {
-        //
+        $dailyTask->update($request->all());
+        return response()->json([
+            'task' => $dailyTask,
+            'message' => 'Daily task updated successfully'
+        ], 200);
     }
 
     /**
@@ -60,6 +68,9 @@ class DailyTaskController extends Controller
      */
     public function destroy(DailyTask $dailyTask)
     {
-        //
+        $dailyTask->delete();
+        return response()->json([
+            'message' => 'Daily task deleted successfully'
+        ], 200);
     }
 }
