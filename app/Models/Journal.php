@@ -25,4 +25,9 @@ class Journal extends Model
     {
         return $this->hasMany(DailyTask::class);
     }
+
+    protected $fillable = [
+        'user_id',
+        'content'
+    ];
 }

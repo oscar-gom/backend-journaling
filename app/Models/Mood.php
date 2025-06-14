@@ -10,4 +10,11 @@ class Mood extends Model
     {
         return $this->belongsTo(Journal::class);
     }
+
+    protected $fillable = [
+        'journal_id',
+        'mood',
+        'description',
+
+    ];
 }

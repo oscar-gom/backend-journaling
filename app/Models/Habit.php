@@ -15,4 +15,13 @@ class Habit extends Model
     {
         return $this->hasMany(HabitEntry::class);
     }
+
+    protected $fillable = [
+        'name',
+        'journal_id',
+        'description',
+        'frequency_unit',
+        'frequency_value',
+        'last_occurrence_at',
+    ];
 }
