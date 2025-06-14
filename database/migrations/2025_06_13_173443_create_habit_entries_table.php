@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('habit_entries', function (Blueprint $table) {
             $table->id('habit_entry_id');
-            $table->foreignId('habit_id')->constrained('habits')->onDelete('cascade');
+            $table->unsignedBigInteger('habit_id');
+            $table->foreign('habit_id')->references('habit_id')->on('habits')->onDelete('cascade');
             $table->boolean('done')->default(false);
             $table->text('note')->nullable();
             $table->timestamps();

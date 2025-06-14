@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('habits', function (Blueprint $table) {
             $table->id('habit_id');
-            $table->foreignId('journal_id')->constrained('journals')->onDelete('cascade');
+            $table->unsignedBigInteger('journal_id');
+            $table->foreign('journal_id')->references('journal_id')->on('journals')->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('frequency_unit', ['daily', 'weekly', 'monthly', 'weekdays', 'weekends']);

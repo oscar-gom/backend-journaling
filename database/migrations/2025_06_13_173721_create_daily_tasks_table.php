@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('daily_tasks', function (Blueprint $table) {
             $table->id('daily_task_id');
-            $table->foreignId('journal_id')->constrained('journals')->onDelete('cascade');
+            $table->unsignedBigInteger('journal_id');
+            $table->foreign('journal_id')->references('journal_id')->on('journals')->onDelete('cascade');
             $table->string('task_1')->nullable();
             $table->string('task_2')->nullable();
             $table->string('task_3')->nullable();
