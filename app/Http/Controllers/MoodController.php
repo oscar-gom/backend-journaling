@@ -12,15 +12,11 @@ class MoodController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $mood = Mood::all();
+        return response()->json([
+            'moods' => $mood,
+            'message' => 'Moods retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -28,23 +24,29 @@ class MoodController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Mood::create($request->all());
+        return response()->json([
+            'message' => 'Mood created successfully'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Mood $mood)
+    public function show($id)
     {
-        //
-    }
+        $mood = Mood::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Mood $mood)
-    {
-        //
+        if (!$mood) {
+            return response()->json([
+                'message' => 'Mood not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'mood' => $mood,
+            'message' => 'Mood retrieved successfully'
+        ], 200);
     }
 
     /**
@@ -52,7 +54,11 @@ class MoodController extends Controller
      */
     public function update(Request $request, Mood $mood)
     {
-        //
+        $mood->update($request->all());
+        return response()->json([
+            'mood' => $mood,
+            'message' => 'Mood updated successfully'
+        ], 200);
     }
 
     /**
@@ -60,6 +66,9 @@ class MoodController extends Controller
      */
     public function destroy(Mood $mood)
     {
-        //
+        $mood->delete();
+        return response()->json([
+            'message' => 'Mood deleted successfully'
+        ], 200);
     }
 }
