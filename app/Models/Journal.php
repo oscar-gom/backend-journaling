@@ -15,4 +15,9 @@ class Journal extends Model
     {
         return $this->hasOne(Mood::class);
     }
+
+    public function habits()
+    {
+        return $this->hasMany(Habit::class);
+    }
 }
