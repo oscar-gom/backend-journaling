@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('journal_id')->references('journal_id')->on('journals')->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('frequency_unit', ['daily', 'weekly', 'monthly', 'weekdays', 'weekends']);
+            $table->enum('frequency_unit', ['daily', 'weekly', 'monthly', 'weekdays', 'weekends', 'every x days', 'every x weeks', 'every x months']);
             $table->integer('frequency_value')->default(1);
             $table->date('last_occurrence_at');
             $table->timestamps();
