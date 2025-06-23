@@ -19,7 +19,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 // Journal
 Route::get('/journal', [JournalController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/journal', [JournalController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/journal/store', [JournalController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/journal/{id}', [JournalController::class, 'show'])->middleware('auth:sanctum');
 Route::put('/journal/update/{journal}', [JournalController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/journal/destroy/{journal}', [JournalController::class, 'destroy'])->middleware('auth:sanctum');
