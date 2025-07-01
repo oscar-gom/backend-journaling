@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('journal_id');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->text('content');
+            $table->date('date');
             $table->timestamps();
         });
     }

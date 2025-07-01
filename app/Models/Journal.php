@@ -28,6 +28,11 @@ class Journal extends Model
 
     protected $fillable = [
         'user_id',
-        'content'
+        'content',
+        'date'
+    ];
+
+    protected $casts = [
+        'date' => 'date',
     ];
 }
