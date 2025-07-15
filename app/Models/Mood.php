@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mood extends Model
 {
+    protected $primaryKey = 'mood_id';
+
     public function journal()
     {
         return $this->belongsTo(Journal::class);

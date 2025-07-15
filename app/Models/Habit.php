@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Habit extends Model
 {
+    protected $primaryKey = 'habit_id';
+
     public function journal()
     {
         return $this->belongsTo(Journal::class);

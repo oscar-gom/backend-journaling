@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DailyTask extends Model
 {
+    protected $primaryKey = 'daily_task_id';
+
     public function journal()
     {
         return $this->belongsTo(Journal::class);

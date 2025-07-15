@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Journal extends Model
 {
+    protected $primaryKey = 'journal_id';
+
     public function user()
     {
         return $this->belongsTo(User::class);
