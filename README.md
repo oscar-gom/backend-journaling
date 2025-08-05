@@ -1,61 +1,211 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📝 Journaling App Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive journaling API built with Laravel that helps users track their daily thoughts, moods, habits, and tasks. This backend provides a complete REST API for managing personal journaling data with user authentication.
 
-## About Laravel
+## ✨ Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- 🔐 **User Authentication** - Secure registration and login with Laravel Sanctum
+- 📖 **Journal Entries** - Create, read, update, and delete journal entries
+- 😊 **Mood Tracking** - Track daily moods with descriptions
+- 🎯 **Habit Management** - Create and track personal habits with frequency settings
+- ✅ **Daily Tasks** - Manage up to 3 daily tasks with completion status
+- 🚀 **RESTful API** - Clean and consistent API endpoints
+- 🐳 **Docker Ready** - Easy setup with Laravel Sail
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🏗️ Data Models
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### User
+- `id` - Primary key
+- `name` - User's full name
+- `email` - Email address (unique)
+- `password` - Encrypted password
+- `email_verified_at` - Email verification timestamp
 
-## Learning Laravel
+### Journal
+- `journal_id` - Primary key
+- `user_id` - Foreign key to User
+- `content` - Journal entry content
+- `date` - Entry date
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Mood
+- `mood_id` - Primary key
+- `journal_id` - Foreign key to Journal
+- `mood` - Mood value/rating
+- `description` - Mood description
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Habit
+- `habit_id` - Primary key
+- `name` - Habit name
+- `journal_id` - Foreign key to Journal
+- `description` - Habit description
+- `frequency_unit` - Frequency unit (daily, weekly, etc.)
+- `frequency_value` - Frequency value
+- `last_occurrence_at` - Last completion timestamp
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### HabitEntry
+- `habit_entry_id` - Primary key
+- `habit_id` - Foreign key to Habit
+- `done` - Completion status (boolean)
+- `note` - Optional note
 
-## Laravel Sponsors
+### DailyTask
+- `daily_task_id` - Primary key
+- `journal_id` - Foreign key to Journal
+- `task_1`, `task_2`, `task_3` - Task descriptions
+- `task_1_done`, `task_2_done`, `task_3_done` - Completion status
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🔗 API Endpoints
 
-### Premium Partners
+### Authentication
+- `POST /api/register` - User registration
+- `POST /api/login` - User login
+- `POST /api/logout` - User logout (authenticated)
+- `GET /api/user` - Get authenticated user info
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Journal Entries
+- `GET /api/journal` - List user's journal entries
+- `POST /api/journal/store` - Create new journal entry
+- `GET /api/journal/{id}` - Get specific journal entry
+- `PUT /api/journal/update/{journal}` - Update journal entry
+- `DELETE /api/journal/destroy/{journal}` - Delete journal entry
 
-## Contributing
+### Daily Tasks
+- `GET /api/daily-task` - List user's daily tasks
+- `POST /api/daily-task/store` - Create new daily task
+- `GET /api/daily-task/{id}` - Get specific daily task
+- `PUT /api/daily-task/update/{daily_task}` - Update daily task
+- `DELETE /api/daily-task/destroy/{daily_task}` - Delete daily task
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Habits
+- `GET /api/habit` - List user's habits
+- `POST /api/habit/store` - Create new habit
+- `GET /api/habit/{id}` - Get specific habit
+- `PUT /api/habit/update/{habit}` - Update habit
+- `DELETE /api/habit/destroy/{habit}` - Delete habit
 
-## Code of Conduct
+### Habit Entries
+- `GET /api/habit-entry` - List habit entries
+- `POST /api/habit-entry/store` - Create new habit entry
+- `GET /api/habit-entry/{id}` - Get specific habit entry
+- `PUT /api/habit-entry/update/{habit_entry}` - Update habit entry
+- `DELETE /api/habit-entry/destroy/{habit_entry}` - Delete habit entry
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Moods
+- `GET /api/mood` - List user's moods
+- `POST /api/mood/store` - Create new mood entry
+- `GET /api/mood/{id}` - Get specific mood entry
+- `PUT /api/mood/update/{mood}` - Update mood entry
+- `DELETE /api/mood/destroy/{mood}` - Delete mood entry
 
-## Security Vulnerabilities
+> 🔒 **Note:** All endpoints except registration and login require authentication via Laravel Sanctum tokens.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🐳 Getting Started with Docker (Sail)
 
-## License
+### Prerequisites
+- Docker Desktop
+- Git
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd backend-journaling
+   ```
+
+2. **Copy environment file**
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Install dependencies with Sail**
+   ```bash
+   ./vendor/bin/sail up -d
+   ./vendor/bin/sail composer install
+   ```
+
+4. **Generate application key**
+   ```bash
+   ./vendor/bin/sail artisan key:generate
+   ```
+
+5. **Run database migrations**
+   ```bash
+   ./vendor/bin/sail artisan migrate
+   ```
+
+6. **Optional: Seed the database**
+   ```bash
+   ./vendor/bin/sail artisan db:seed
+   ```
+
+### 🚀 Running the Application
+
+```bash
+# Start the application
+./vendor/bin/sail up -d
+
+# Stop the application
+./vendor/bin/sail down
+
+# View logs
+./vendor/bin/sail logs
+
+# Access the application shell
+./vendor/bin/sail shell
+```
+
+The API will be available at `http://localhost` (or the port specified in your `.env` file).
+
+### 🗃️ Database
+
+The application uses PostgreSQL as the default database. You can access it using:
+
+```bash
+# Access PostgreSQL shell
+./vendor/bin/sail psql
+
+# Run migrations
+./vendor/bin/sail artisan migrate
+
+# Reset database
+./vendor/bin/sail artisan migrate:fresh --seed
+```
+
+## 🧪 Testing
+
+Run the test suite with:
+
+```bash
+# Run all tests
+./vendor/bin/sail test
+
+# Run tests with coverage
+./vendor/bin/sail test --coverage
+```
+
+## 🛠️ Development Commands
+
+```bash
+# Clear caches
+./vendor/bin/sail artisan cache:clear
+./vendor/bin/sail artisan config:clear
+./vendor/bin/sail artisan route:clear
+
+# Generate API documentation
+./vendor/bin/sail artisan route:list
+
+# Code formatting with Pint
+./vendor/bin/sail pint
+```
+
+## 📋 Requirements
+
+- PHP 8.2+
+- Laravel 12.0+
+- PostgreSQL 17
+- Docker & Docker Compose
+
+## 📄 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
