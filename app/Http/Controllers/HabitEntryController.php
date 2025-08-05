@@ -24,11 +24,18 @@ class HabitEntryController extends Controller
      */
     public function store(Request $request)
     {
-        $entry = HabitEntry::create($request->all());
-        return response()->json([
-            'entry' => $entry,
-            'message' => 'Habit entry created successfully'
-        ], 201);
+        try {
+            $entry = HabitEntry::create($request->all());
+            return response()->json([
+                'entry' => $entry,
+                'message' => 'Habit entry created successfully'
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create habit entry',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -56,11 +63,18 @@ class HabitEntryController extends Controller
      */
     public function update(Request $request, HabitEntry $habitEntry)
     {
-        $habitEntry->update($request->all());
-        return response()->json([
-            'entry' => $habitEntry,
-            'message' => 'Habit entry updated successfully'
-        ], 200);
+        try {
+            $habitEntry->update($request->all());
+            return response()->json([
+                'entry' => $habitEntry,
+                'message' => 'Habit entry updated successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update habit entry',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -68,9 +82,16 @@ class HabitEntryController extends Controller
      */
     public function destroy(HabitEntry $habitEntry)
     {
-        $habitEntry->delete();
-        return response()->json([
-            'message' => 'Habit entry deleted successfully'
-        ], 200);
+        try {
+            $habitEntry->delete();
+            return response()->json([
+                'message' => 'Habit entry deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete habit entry',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -31,11 +31,18 @@ class JournalController extends Controller
      */
     public function store(Request $request)
     {
-        $journal = Journal::create($request->all());
-        return response()->json([
-            'journal' => $journal,
-            'message' => 'Journal created successfully'
-        ], 201);
+        try {
+            $journal = Journal::create($request->all());
+            return response()->json([
+                'journal' => $journal,
+                'message' => 'Journal created successfully'
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create journal',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -63,11 +70,18 @@ class JournalController extends Controller
      */
     public function update(Request $request, Journal $journal)
     {
-        $journal->update($request->all());
-        return response()->json([
-            'journal' => $journal,
-            'message' => 'Journal updated successfully'
-        ], 200);
+        try {
+            $journal->update($request->all());
+            return response()->json([
+                'journal' => $journal,
+                'message' => 'Journal updated successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update journal',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -75,9 +89,16 @@ class JournalController extends Controller
      */
     public function destroy(Journal $journal)
     {
-        $journal->delete();
-        return response()->json([
-            'message' => 'Journal deleted successfully'
-        ], 200);
+        try {
+            $journal->delete();
+            return response()->json([
+                'message' => 'Journal deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete journal',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -29,11 +29,18 @@ class HabitController extends Controller
      */
     public function store(Request $request)
     {
-        $habit = Habit::create($request->all());
-        return response()->json([
-            'habit' => $habit,
-            'message' => 'Habit created successfully'
-        ], 201);
+        try {
+            $habit = Habit::create($request->all());
+            return response()->json([
+                'habit' => $habit,
+                'message' => 'Habit created successfully'
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create habit',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -60,11 +67,18 @@ class HabitController extends Controller
      */
     public function update(Request $request, Habit $habit)
     {
-        $habit->update($request->all());
-        return response()->json([
-            'habit' => $habit,
-            'message' => 'Habit updated successfully'
-        ], 200);
+        try {
+            $habit->update($request->all());
+            return response()->json([
+                'habit' => $habit,
+                'message' => 'Habit updated successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update habit',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -72,9 +86,16 @@ class HabitController extends Controller
      */
     public function destroy(Habit $habit)
     {
-        $habit->delete();
-        return response()->json([
-            'message' => 'Habit deleted successfully'
-        ], 200);
+        try {
+            $habit->delete();
+            return response()->json([
+                'message' => 'Habit deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete habit',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

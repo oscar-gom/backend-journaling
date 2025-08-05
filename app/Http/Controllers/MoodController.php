@@ -24,10 +24,18 @@ class MoodController extends Controller
      */
     public function store(Request $request)
     {
-        Mood::create($request->all());
-        return response()->json([
-            'message' => 'Mood created successfully'
-        ], 201);
+        try {
+            $mood = Mood::create($request->all());
+            return response()->json([
+                'mood' => $mood,
+                'message' => 'Mood created successfully'
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create mood',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -54,11 +62,18 @@ class MoodController extends Controller
      */
     public function update(Request $request, Mood $mood)
     {
-        $mood->update($request->all());
-        return response()->json([
-            'mood' => $mood,
-            'message' => 'Mood updated successfully'
-        ], 200);
+        try {
+            $mood->update($request->all());
+            return response()->json([
+                'mood' => $mood,
+                'message' => 'Mood updated successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update mood',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -66,9 +81,16 @@ class MoodController extends Controller
      */
     public function destroy(Mood $mood)
     {
-        $mood->delete();
-        return response()->json([
-            'message' => 'Mood deleted successfully'
-        ], 200);
+        try {
+            $mood->delete();
+            return response()->json([
+                'message' => 'Mood deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete mood',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

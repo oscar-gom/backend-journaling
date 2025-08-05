@@ -24,11 +24,18 @@ class DailyTaskController extends Controller
      */
     public function store(Request $request)
     {
-        DailyTask::create($request->all());
-        return response()->json([
-            'task' => $request,
-            'message' => 'Daily task created successfully'
-        ], 201);
+        try {
+            $task = DailyTask::create($request->all());
+            return response()->json([
+                'task' => $task,
+                'message' => 'Daily task created successfully'
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create daily task',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -56,11 +63,18 @@ class DailyTaskController extends Controller
      */
     public function update(Request $request, DailyTask $dailyTask)
     {
-        $dailyTask->update($request->all());
-        return response()->json([
-            'task' => $dailyTask,
-            'message' => 'Daily task updated successfully'
-        ], 200);
+        try {
+            $dailyTask->update($request->all());
+            return response()->json([
+                'task' => $dailyTask,
+                'message' => 'Daily task updated successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update daily task',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -68,9 +82,16 @@ class DailyTaskController extends Controller
      */
     public function destroy(DailyTask $dailyTask)
     {
-        $dailyTask->delete();
-        return response()->json([
-            'message' => 'Daily task deleted successfully'
-        ], 200);
+        try {
+            $dailyTask->delete();
+            return response()->json([
+                'message' => 'Daily task deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete daily task',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
